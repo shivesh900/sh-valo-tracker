@@ -198,13 +198,22 @@ function playerHTML(res, full) {
   }).join("");
   const tops = res.topAgents.map((t) => { const ag = agentBy(t.id || t.name);
     return `<div class="topagent"><img src="${esc(ag?.icon || "")}" alt="" loading="lazy"><div><b style="font-family:var(--display);text-transform:uppercase">${esc(ag?.name || cap(t.name))}</b><div class="muted" style="font-size:.8rem">${t.games} game${t.games > 1 ? "s" : ""} · ${t.deaths ? (t.kills / t.deaths).toFixed(2) : t.kills} K/D</div></div></div>`; }).join("");
-  return `
+  const header = `
   <div class="playerbanner" style="background-image:url('${esc(cardArt(a.card, "wideart"))}')">
     ${a.card ? `<img class="pc" src="${esc(cardArt(a.card, "smallart"))}" alt="">` : (a.cardImage ? `<img class="pc" src="${esc(a.cardImage)}" alt="">` : "")}
     <div><h2>${esc(nm)}<span>#${esc(tg)}</span></h2>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${a.level != null ? `<span class="lvl">LVL ${esc(a.level)}</span>` : ""}<span class="muted" style="font-size:.85rem">${esc((res.region || "").toUpperCase())}${a.title ? " · " + esc(a.title) : ""}</span>
     <button class="btn small" id="shareLookup">Share</button></div></div>
+  </div>`;
+  if (res.private) return `${header}
+  <div class="privatebox" role="status">
+    <div class="lock"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg></div>
+    <h3>This profile is private</h3>
+    <p>Rank and match stats aren't public for this Riot ID.</p>
+    <p class="tip">Owner? <a href="${esc(res.profileUrl)}" target="_blank" rel="noopener">Sign in with Riot on dak.gg</a> and set your profile to public, then search again.</p>
   </div>
+  <p class="dim" style="font-size:.78rem;margin-top:10px">Stats via ${esc(res.source || "")}. Unofficial data.</p>`;
+  return `${header}
   ${res.limited ? `<div class="limited" role="note"><b>Limited data</b><span>${esc(res.limited.replace(/^Limited data:\s*(.)/, (_, c) => c.toUpperCase()))}</span></div>` : ""}
   <div class="rankrow">
     <div class="rankcard">${cur ? `<img src="${esc(icon(cur))}" alt="">` : last ? `<img class="faded" src="${esc(icon(last))}" alt="">` : ""}<div><div class="k">Current rank${m.currentAct ? ` · ${esc(m.currentAct)}` : ""}</div>

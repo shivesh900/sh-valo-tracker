@@ -113,6 +113,13 @@ async function liveActs(bundle) {
   return { acts, tables };
 }
 const cap = (s) => String(s || "").toLowerCase().replace(/(^|\s)(\w)/g, (m, p, c) => p + c.toUpperCase());
+// A profile is shown as private only when dak.gg flags it private AND there is nothing for the
+// current act. dak.gg flags some fully public-looking accounts (e.g. Day1#1119) as private too,
+// so the flag alone is not enough.
+export const isPrivateNoCurrent = (isPrivate, nowAct, curRow) => !!(isPrivate && nowAct && !curRow);
+export const dakProfileUrl = (name, tag) =>
+  `https://dak.gg/valorant/profile/${enc(String(name || "").trim().toLowerCase())}-${enc(String(tag || "").trim().toLowerCase())}`;
+
 export function loadActs() {
   if (actsPromise) return actsPromise;
   actsPromise = (async () => {
@@ -221,6 +228,8 @@ async function dakLookup(name, tag, region) {
       cardImage: acc.playerCard && acc.playerCard.imageUrl, card: null, title: acc.playerTitle && acc.playerTitle.name },
     region: acc.activeShard || region, mmr, matches, summary: perf.summary, topAgents: perf.topAgents, topLabel: perf.topLabel, limited,
     matchError: matchesR.status === "rejected" ? matchesR.reason.message : null,
+    private: isPrivateNoCurrent(acc.isPrivate, nowAct, curRow),
+    profileUrl: dakProfileUrl(acc.gameName || name, acc.tagLine || tag),
     mmrError: seasonsR.status === "rejected" ? seasonsR.reason.message : null,
   };
 }

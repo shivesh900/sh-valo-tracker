@@ -324,3 +324,9 @@ table.wtable{border-collapse:collapse;width:100%;min-width:760px;font-size:.92re
 .rankcard img.faded{opacity:.45;filter:grayscale(.6)}
 .stale-label{color:#ffbe46}
 .statgrid.stale .stat b{color:var(--mute)}
+.privatebox{margin:14px 0 0;padding:26px 18px 22px;text-align:center;background:linear-gradient(160deg,rgba(255,70,85,.12),transparent 55%),var(--panel);border:1px solid var(--line);clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%)}
+.privatebox .lock{width:58px;height:58px;margin:0 auto 12px;display:grid;place-items:center;color:var(--red,#ff4655);border:1px solid rgba(255,70,85,.5);background:rgba(255,70,85,.1);border-radius:50%}
+.privatebox h3{margin:0 0 6px;font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:1.35rem}
+.privatebox p{margin:0 auto;max-width:34ch;line-height:1.45}
+.privatebox .tip{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:.84rem;color:var(--mute);max-width:40ch}
+.privatebox .tip a{color:var(--red,#ff4655);text-decoration:underline;text-underline-offset:2px}

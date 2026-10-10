@@ -59,3 +59,17 @@ test("acts: current act by date and per-act tier tables", async () => {
   assert.ok(tierFor(meta, e4, 24).rank > tierFor(meta, e6a2, 23).rank, "old Radiant outranks Ascendant 3");
   assert.equal(tierFor(meta, e6a2, 0), null);
 });
+
+test("private profile: shown only when private AND nothing for the current act", async () => {
+  const { isPrivateNoCurrent, dakProfileUrl } = await import("../js/stats.js");
+  const act = { id: "8102cd81-43a0-d0d7-bd59-47b8fe9bed1b" };
+  assert.equal(isPrivateNoCurrent(true, act, null), true, "Sri#hari: private, no current act");
+  assert.equal(isPrivateNoCurrent(true, act, { act, games: 40 }), false, "Day1#1119: private flag but current-act data");
+  assert.equal(isPrivateNoCurrent(false, act, null), false, "public with no data keeps the limited view");
+  assert.equal(dakProfileUrl("Sri", "hari"), "https://dak.gg/valorant/profile/sri-hari");
+  assert.equal(dakProfileUrl("Day1", "1119"), "https://dak.gg/valorant/profile/day1-1119");
+  const app = read("js/app.js");
+  assert.match(app, /This profile is private/);
+  assert.match(app, /Rank and match stats aren't public for this Riot ID\./);
+  assert.match(app, /if \(res\.private\) return `\$\{header\}/);
+});
