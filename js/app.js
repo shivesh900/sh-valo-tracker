@@ -562,11 +562,12 @@ function more() {
     <a href="#/comp"><span>Comp builder<small>Five agents, role hints, share link</small></span></a>
     <a href="#/crosshairs"><span>Crosshairs<small>Preview and copy codes</small></span></a>
     <a href="#/ranks"><span>Rank tiers<small>Iron to Radiant</small></span></a>
+    <a href="downloads/SH-VALO-TRACKER.apk" download><span>Android app (APK)<small>Download and install SH VALO TRACKER, 1.2 MB</small></span></a>
     <button id="moreInstall" ${deferredPrompt ? "" : "hidden"}><span>Install app<small>Add SH VALO TRACKER to your home screen</small></span></button>
   </div>
   <div class="panel" style="margin-top:16px">
     <h3>Install on your phone</h3>
-    <p class="ios-note"><b>Android (Chrome):</b> tap Install app above, or ⋮ → Add to Home screen / Install app.<br><b>iPhone (Safari):</b> tap Share → Add to Home Screen.</p>
+    <p class="ios-note"><b>Android:</b> download the APK above and allow "Install unknown apps" when asked, or in Chrome tap ⋮ → Install app.<br><b>iPhone (Safari):</b> tap Share → Add to Home Screen.</p>
     <p class="ios-note" style="margin-bottom:0">Once installed it opens full screen and works offline with the last data it loaded.</p>
   </div>`, "More");
   $("#moreInstall")?.addEventListener("click", doInstall);

@@ -1,5 +1,5 @@
 /* SH VALO TRACKER service worker: offline app shell + cached game data and images. */
-const VERSION = "shv-2026-10-10b";
+const VERSION = "shv-2026-10-10c";
 const SHELL = `shell-${VERSION}`, API = "api-v1", IMG = "img-v1";
 const SHELL_FILES = [
   "./", "./index.html", "./manifest.webmanifest", "./css/app.css",

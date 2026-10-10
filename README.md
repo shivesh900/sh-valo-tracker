@@ -17,6 +17,8 @@ A fan-made Valorant companion that installs on your phone like an app.
 Android (Chrome): open the site and tap **Install app** (or ⋮ → Install app). iPhone (Safari): Share → Add to Home Screen.
 It works offline with the last data it loaded.
 
+Android APK: [downloads/SH-VALO-TRACKER.apk](downloads/SH-VALO-TRACKER.apk) (a Trusted Web Activity wrapper around the site; allow "Install unknown apps").
+
 ## Data
 - Game data: [valorant-api.com](https://valorant-api.com), fetched live, with a bundled snapshot in `data/snapshot.json` so the app still works if the API is down.
 - Player stats: by default from dak.gg's public stats backend (no key needed; unofficial, so it can change). Optionally the HenrikDev API through the key-holding proxy in `proxy/henrik-worker.js`. See `js/config.js`. Never commit an API key here.
