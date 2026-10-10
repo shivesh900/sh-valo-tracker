@@ -181,9 +181,9 @@ const cap = (s) => String(s || "").replace(/(^|[\s_-])(\w)/g, (m, p, c) => p + c
 function playerHTML(res, full) {
   const a = res.account || {};
   if (!a.card && a.cardImage) { const mm = String(a.cardImage).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i); if (mm) a.card = mm[0]; }
-  const m = res.mmr;
-  const cur = m && m.tier ? tierBy(m.tier) : null;
-  const peak = m && tierBy(m.peakTier);
+  const m = res.mmr || {};
+  const icon = (t) => t ? (t.icon || tierBy(t.tierId)?.icon || "") : "";
+  const cur = m.current, last = m.last, peak = m.peak;
   const [nm, tg] = [a.name || full.split("#")[0], a.tag || full.split("#")[1]];
   const s = res.summary;
   const matches = res.matches.map((x) => {
@@ -205,21 +205,25 @@ function playerHTML(res, full) {
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${a.level != null ? `<span class="lvl">LVL ${esc(a.level)}</span>` : ""}<span class="muted" style="font-size:.85rem">${esc((res.region || "").toUpperCase())}${a.title ? " · " + esc(a.title) : ""}</span>
     <button class="btn small" id="shareLookup">Share</button></div></div>
   </div>
+  ${res.limited ? `<div class="limited" role="note"><b>Limited data</b><span>${esc(res.limited.replace(/^Limited data:\s*(.)/, (_, c) => c.toUpperCase()))}</span></div>` : ""}
   <div class="rankrow">
-    <div class="rankcard">${cur ? `<img src="${esc(cur.icon)}" alt="">` : ""}<div><div class="k">Current rank</div><div class="v">${esc(m?.tierName || (cur && m.tier > 2 ? cur.name : "") || (res.mmrError ? "Unavailable" : "Unrated"))}</div>${m?.act ? `<div class="muted" style="font-size:.8rem">${esc(m.act)}</div>` : ""}
-      ${m && m.rr != null ? `<div class="muted" style="font-size:.9rem">${m.rr} RR${m.change != null ? ` · last game ${m.change > 0 ? "+" : ""}${m.change}` : ""}</div><div class="rrbar"><i style="width:${Math.max(0, Math.min(100, m.rr))}%"></i></div>` : ""}</div></div>
-    <div class="rankcard">${peak ? `<img src="${esc(peak.icon)}" alt="">` : ""}<div><div class="k">Peak rank</div><div class="v">${esc(m?.peakName || peak?.name || "—")}</div>${m?.peakSeason ? `<div class="muted" style="font-size:.9rem">${esc(m.peakSeason)}${m.peakNote ? " · best " + esc(m.peakNote) : ""}</div>` : ""}</div></div>
+    <div class="rankcard">${cur ? `<img src="${esc(icon(cur))}" alt="">` : last ? `<img class="faded" src="${esc(icon(last))}" alt="">` : ""}<div><div class="k">Current rank${m.currentAct ? ` · ${esc(m.currentAct)}` : ""}</div>
+      <div class="v">${cur ? esc(cur.name) : res.mmrError ? "Unavailable" : "Unranked this act"}</div>
+      ${cur && cur.rr != null && !isNaN(cur.rr) ? `<div class="muted" style="font-size:.9rem">${cur.rr} RR${cur.change != null ? ` · last game ${cur.change > 0 ? "+" : ""}${cur.change}` : ""}</div><div class="rrbar"><i style="width:${Math.max(0, Math.min(100, cur.rr))}%"></i></div>` : ""}
+      ${!cur && m.playedThisAct ? `<div class="muted" style="font-size:.85rem">${m.playedThisAct} game${m.playedThisAct > 1 ? "s" : ""} this act, no rank yet</div>` : ""}
+      ${!cur && last ? `<div class="muted" style="font-size:.85rem">Last seen: ${esc(last.name)} · ${esc(last.act)}</div>` : ""}</div></div>
+    <div class="rankcard">${peak ? `<img src="${esc(icon(peak))}" alt="">` : ""}<div><div class="k">Highest act rank we can see</div><div class="v">${esc(peak?.name || "—")}</div>${peak?.act ? `<div class="muted" style="font-size:.85rem">${esc(peak.act)}${m.actsSeen ? ` · from ${m.actsSeen} act${m.actsSeen > 1 ? "s" : ""} on record` : ""}</div>` : ""}</div></div>
   </div>
-  <div class="section-title"><h2>Performance</h2><span class="muted" style="font-size:.85rem">${esc(s.label || "")}</span></div>
-  <div class="statgrid">
+  <div class="section-title"><h2>Performance</h2><span class="${s.stale ? "stale-label" : "muted"}" style="font-size:.85rem">${esc(s.label || "")}</span></div>
+  <div class="statgrid${s.stale ? " stale" : ""}">
     <div class="stat"><b>${s.kd == null ? "—" : s.kd.toFixed(2)}</b><span>K/D</span></div>
     <div class="stat"><b>${fmt(s.hs)}${s.hs == null ? "" : "%"}</b><span>Headshot %</span></div>
     <div class="stat"><b>${fmt(s.win, 0)}${s.win == null ? "" : "%"}</b><span>Win rate</span></div>
     <div class="stat"><b>${fmt(s.acs, 0)}</b><span>Avg combat score</span></div>
   </div>
-  ${tops ? `<div class="section-title"><h2>Most played</h2></div><div class="topagents">${tops}</div>` : ""}
+  ${tops ? `<div class="section-title"><h2>Most played</h2>${res.topLabel ? `<span class="${s.stale ? "stale-label" : "muted"}" style="font-size:.85rem">${esc(res.topLabel)}</span>` : ""}</div><div class="topagents">${tops}</div>` : ""}
   <div class="section-title"><h2>Recent matches</h2></div>
-  <div class="matches">${matches || `<div class="empty">${res.matchError ? "Match history is unavailable right now." : "No recent matches found."}</div>`}</div>
+  <div class="matches">${matches || `<div class="empty">${res.matchError ? "Match history is unavailable right now." : res.limited ? "No match history we can see. It may be private or not synced yet." : "No recent matches found."}</div>`}</div>
   <p class="dim" style="font-size:.78rem;margin-top:10px">Stats via ${esc(res.source || "")}. Unofficial data, may lag a few minutes behind the game.</p>`;
 }
 

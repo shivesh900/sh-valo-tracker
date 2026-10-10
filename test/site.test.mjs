@@ -42,3 +42,20 @@ test("no API keys or placeholders shipped", () => {
     assert.doesNotMatch(t, /lorem ipsum|TODO/i);
   }
 });
+
+test("acts: current act by date and per-act tier tables", async () => {
+  const { tierFor, currentAct } = await import("../js/stats.js");
+  const meta = JSON.parse(read("data/acts.json"));
+  const at = (iso) => currentAct(meta, Date.parse(iso));
+  assert.equal(at("2026-10-10T12:00:00Z").id, "8102cd81-43a0-d0d7-bd59-47b8fe9bed1b");
+  assert.equal(at("2026-10-15T00:00:00Z").act, "A6");
+  const e6a2 = meta.acts.find((a) => a.id.startsWith("34093c29"));
+  assert.equal(`${e6a2.ep} ${e6a2.act}`, "E6 A2");
+  assert.equal(tierFor(meta, e6a2, 14).name, "Gold 3");
+  const e4 = meta.acts.find((a) => a.ep === "E4" && a.act === "A3");
+  assert.equal(tierFor(meta, e4, 21).name, "Immortal 1");
+  assert.equal(tierFor(meta, e4, 24).name, "Radiant");
+  assert.equal(tierFor(meta, e6a2, 21).name, "Ascendant 1");
+  assert.ok(tierFor(meta, e4, 24).rank > tierFor(meta, e6a2, 23).rank, "old Radiant outranks Ascendant 3");
+  assert.equal(tierFor(meta, e6a2, 0), null);
+});

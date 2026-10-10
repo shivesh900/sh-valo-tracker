@@ -1,15 +1,15 @@
 /* SH VALO TRACKER service worker: offline app shell + cached game data and images. */
-const VERSION = "shv-2026-10-10c";
+const VERSION = "shv-2026-10-10d";
 const SHELL = `shell-${VERSION}`, API = "api-v1", IMG = "img-v1";
 const SHELL_FILES = [
   "./", "./index.html", "./manifest.webmanifest", "./css/app.css",
   "./js/app.js", "./js/data.js", "./js/crosshair.js", "./js/stats.js", "./js/config.js",
-  "./data/snapshot.json",
+  "./data/snapshot.json", "./data/acts.json",
   "./fonts/oswald-400-700.woff2", "./fonts/barlow-400.woff2", "./fonts/barlow-500.woff2", "./fonts/barlow-600.woff2",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/maskable-192.png", "./icons/maskable-512.png", "./icons/apple-touch-icon.png", "./icons/favicon-32.png",
 ];
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES.map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", (e) => {
   e.waitUntil((async () => {

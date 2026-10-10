@@ -317,3 +317,10 @@ table.wtable{border-collapse:collapse;width:100%;min-width:760px;font-size:.92re
 .pill{display:inline-block;font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;padding:2px 8px;background:var(--red);color:#fff}
 .code-note{font-size:.85rem;color:var(--mute)}
 .code-note code{background:var(--bg2);padding:1px 5px}
+
+/* Honest-data states */
+.limited{display:flex;flex-direction:column;gap:2px;margin:12px 0 0;padding:10px 12px;border:1px solid rgba(255,190,70,.45);border-left:3px solid #ffbe46;background:rgba(255,190,70,.08);font-size:.88rem;line-height:1.35}
+.limited b{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;color:#ffbe46}
+.rankcard img.faded{opacity:.45;filter:grayscale(.6)}
+.stale-label{color:#ffbe46}
+.statgrid.stale .stat b{color:var(--mute)}
