@@ -263,6 +263,7 @@ table.wtable{border-collapse:collapse;width:100%;min-width:760px;font-size:.92re
 .pick[aria-pressed="true"]{border-color:var(--red);opacity:.45}
 .comp-layout{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 .comp-layout > *{min-width:0}
+@media(max-width:979px){.comp-side{order:-1}}
 @media(min-width:980px){.comp-layout{grid-template-columns:minmax(0,1fr) 380px}.comp-side{position:sticky;top:80px;align-self:start}}
 .comp-actions{display:flex;flex-wrap:wrap;gap:8px}
 .saved{display:grid;gap:6px;margin-top:10px}
