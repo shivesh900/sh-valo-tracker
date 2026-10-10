@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SH VALO TRACKER · Valorant stats, agents, maps &amp; comps</title>
+<meta name="description" content="SH VALO TRACKER: look up any Valorant player by Riot ID, browse agents, maps and weapons, build team comps and copy crosshair codes. Installs as an app.">
+<meta name="theme-color" content="#0f1923">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SH VALO">
+<meta property="og:title" content="SH VALO TRACKER">
+<meta property="og:description" content="Valorant player lookup, agents, maps, weapons, comp builder and crosshair codes.">
+<meta property="og:image" content="icons/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preload" href="fonts/oswald-400-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="brand" href="#/" aria-label="SH VALO TRACKER home">
+    <img src="icons/icon-192.png" alt="" width="34" height="34">
+    <span class="brand-text"><b>SH VALO</b> <span>TRACKER</span></span>
+  </a>
+  <nav class="topnav" aria-label="Main">
+    <a href="#/" data-nav="home">Lookup</a>
+    <a href="#/agents" data-nav="agents">Agents</a>
+    <a href="#/maps" data-nav="maps">Maps</a>
+    <a href="#/weapons" data-nav="weapons">Weapons</a>
+    <a href="#/comp" data-nav="comp">Comp Builder</a>
+    <a href="#/crosshairs" data-nav="crosshairs">Crosshairs</a>
+    <a href="#/ranks" data-nav="ranks">Ranks</a>
+  </nav>
+  <button class="install-btn" id="installBtn" hidden>Install app</button>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="boot">
+    <div class="boot-mark"></div>
+    <p>Loading SH VALO TRACKER…</p>
+    <noscript><p>This app needs JavaScript turned on.</p></noscript>
+  </div>
+</main>
+
+<footer class="footer">
+  <p><b>SH VALO TRACKER</b> is fan-made and not endorsed by Riot Games. Valorant and all related assets are property of Riot Games, Inc.</p>
+  <p class="muted">Game data from <a href="https://valorant-api.com" rel="noopener" target="_blank">valorant-api.com</a> · <span id="dataSource">snapshot</span></p>
+</footer>
+
+<nav class="tabbar" aria-label="App">
+  <a href="#/" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.9 12.1l4.8 4.8-1.4 1.4-4.8-4.8A7.5 7.5 0 1 1 10.5 3zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/></svg><span>Lookup</span></a>
+  <a href="#/agents" data-nav="agents"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5zm-8 20c0-4.4 3.6-8 8-8s8 3.6 8 8z"/></svg><span>Agents</span></a>
+  <a href="#/maps" data-nav="maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3 3 5.5v15.5l6-2.5 6 2.5 6-2.5V3l-6 2.5zm0 2.2 6 2.5v11l-6-2.5z"/></svg><span>Maps</span></a>
+  <a href="#/weapons" data-nav="weapons"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h15l2-2h3v4h-3l-1 1h-4l-1 2H9l-2 4H4l1-4H2z"/></svg><span>Weapons</span></a>
+  <a href="#/more" data-nav="more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg><span>More</span></a>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
